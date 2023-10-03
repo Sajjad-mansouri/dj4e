@@ -1,0 +1,23 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<h1>Make List</h1>
+{%if object_list%}
+{%for object in object_list%}
+      <li>
+          {{ object.name }} 
+          (<a href="{% url 'autos:make_update' object.id %}">Update</a> |
+          <a href="{% url 'autos:make_delete' object.id %}">Delete</a>) <br/>
+      </li>
+{%endfor%}
+{%else%}
+<p>There are no Make in the library.</p>
+{%endif%}
+
+<ul>
+	<li><a href="{%url 'autos:all' %}">View Autos</a></li>
+	<li><a href="{%url 'autos:make_create' %}">Add a make</a></li>
+
+</ul>
+
+{%endblock content %}

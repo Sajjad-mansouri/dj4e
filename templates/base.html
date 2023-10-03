@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Edit dj4e-samples/settings.py and add APP_NAME = 'DJ4E Samples' or similar -->
+<title>{% block title %}{{ settings.APP_NAME }}{% endblock %}</title>
+
+<!-- Replace this value (42-42) with the one provided by the autograder -->
+<meta name="dj4e" content="dcbe0f23081cb4b6ce27bf885cfdc0a8">
+
+<meta name="dj4e-code" content="42169634840298">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/v4-shims.css">
+
+<meta name="dj4e-version" content="2023-07-04">
+
+{% block head %} {% endblock %}
+
+</head>
+<body>
+<div class="container">
+{% block navbar %} 
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{%url 'autos:all'%}">Auto</a>
+
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{%url 'login'%}">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{%url 'logout'%}">Logout</a>
+      </li>
+    </ul>
+
+
+</nav>
+{% endblock %}
+{% block welcome %} {% endblock %}
+{% block messages %}
+    {% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-{{msg.level_tag}}" role="alert">
+        {{msg.message}}
+        </div>
+    {% endfor %}
+    {% endif %}
+{% endblock %}
+{% block content %}
+{% endblock %}
+</div>
+{% block footer %} {% endblock %}
+</body>
+</html>
