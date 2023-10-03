@@ -5,5 +5,7 @@
 
 <p>Hello, world. 77be07f3 is the polls index. </p>
 <p>You're looking at question:{{question_id}}</p>
-<a href="{%url 'detail' 1 %}">Answer to the Ultimate Question</a>
+{%for object in object_list%}
+<a href="{%url 'polls:detail' object.id %}">{{object.question_text}}</a>
+{%endfor%}
 {%endblock content %}
