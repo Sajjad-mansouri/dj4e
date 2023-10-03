@@ -9,7 +9,7 @@ class IndexView(ListView):
 	template_name='polls/index.html'
 	
 def owner(request):
-	return HttpResponse("Hello, world. 77be07f3 is the polls index.")
+	return render(request,'polls/owner.html')
 
 def vote(request, question_id):
 	question = get_object_or_404(Question, pk=question_id)
