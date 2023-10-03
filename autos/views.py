@@ -38,16 +38,16 @@ class MakeView(LoginRequiredMixin,ListView):
 class MakeCreate(LoginRequiredMixin,CreateView):
 	model=Make
 	form_class=MakeForm
-	success_url=reverse_lazy('autos:make_list')
+	success_url=reverse_lazy('autos:all')
 	template_name='autos/make_form.html'
 
 class MakeUpdate(LoginRequiredMixin,UpdateView):
 	model=Make
 	form_class=MakeForm
-	success_url=reverse_lazy('autos:make_list')
+	success_url=reverse_lazy('autos:all')
 	template_name='autos/make_form.html'
 
 class MakeDelete(LoginRequiredMixin,DeleteView):
 	model=Make
-	success_url=reverse_lazy('autos:make_list')
+	success_url=reverse_lazy('autos:all')
 	template_name='autos/make_delete_confirm.html'
