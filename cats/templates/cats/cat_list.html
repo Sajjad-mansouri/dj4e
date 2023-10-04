@@ -1,0 +1,48 @@
+{%extends 'base.html'%}
+{%block content%}
+<ul>
+	{%if breed_count > 0 %}
+	<li><a href="{%url 'cats:cat_create' %}">Add an cat</a></li>
+	{%else%}
+	<p>please add breed first!</p>
+	{%endif%}
+	<li><a href="{%url 'cats:breed_list' %}">View breeds</a>({{breed_count}})</li>
+	<li><a href="{%url 'cats:breed_create' %}">Add a breed</a></li>
+
+</ul>
+<hr>
+<h1>Cat List</h1>
+{%if object_list%}
+<table class='table'>
+	<tr>
+		<th>nickname</th>
+		<th>weight</th>
+		<th>foods</th>
+		<th>breed</th>
+		<th>breed</th>
+
+	</tr>
+	<tr>
+		{%for object in object_list%}
+		<td>{{ object.nickname }}</td>
+		<td>{{ object.weight }}</td>
+		<td>{{ object.food }}</td>
+		<td>{{ object.breed }}</td>
+		<td>
+			<a href="{% url 'cats:cat_update' object.id %}">Update</a> 
+      <a href="{% url 'cats:cat_delete' object.id %}">Delete</a>
+    </td>
+
+	</tr>
+
+{%endfor%}
+</table>
+
+{%else%}
+<p>There are no Cats.</p>
+{%endif%}
+
+
+
+
+{%endblock content %}

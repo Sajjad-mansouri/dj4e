@@ -1,0 +1,9 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<form method='POST'>
+	{%csrf_token%}
+	<p>are you sure to delete this breed?</p>
+	<input type="submit" value="Yes, delete." class='btn btn-danger'>
+</form>
+{%endblock content %}

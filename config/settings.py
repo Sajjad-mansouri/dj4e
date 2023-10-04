@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'polls',
     'home',
     'hello',
-    'autos'
+    'autos',
+    'cats',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
