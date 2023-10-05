@@ -9,7 +9,7 @@
 <div>
 {%if object_list%}
 {%for object in object_list%}
-<h2>{{object.title}}{%if object.owner == user%}(<a href="{%url 'ads:ad_update' object.id %}">Edit</a>|<a href="{%url 'ads:ad_delete' object.id %}">Delete</a>){%endif%}</h2>
+<h2><a href="{%url 'ads:ad_detail' object.id %}">{{object.title}}</a>{%if object.owner == user%}(<a href="{%url 'ads:ad_update' object.id %}">Edit</a>|<a href="{%url 'ads:ad_delete' object.id %}">Delete</a>){%endif%}</h2>
 <p>price:{{object.price}}</p>
 <p>{{object.text|linebreaks|truncatewords:10}}</p>
 <hr>

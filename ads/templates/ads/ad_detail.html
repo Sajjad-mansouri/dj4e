@@ -1,5 +1,17 @@
 {%extends 'base.html'%}
 {%block content%}
-<h1>ad detail</h1>
+
+
+
+
+<a href="{%url 'ads:all'%}" class='btn btn-primary'>back</a>
+<div>
+<h2>{{object.title}}</h2>
+<p>price:{{object.price}}</p>
+<p>{{object.text|linebreaks|truncatewords:10}}</p>
+<hr>
+
+
+</div>
 
 {%endblock content %}
