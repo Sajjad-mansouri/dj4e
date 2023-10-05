@@ -37,12 +37,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #my apps
     'polls',
     'home',
     'hello',
     'autos',
     'cats',
-    'django_extensions'
+    'ads',
+
+    #installed app
+    'django_extensions',
+    'crispy_forms',
+    "crispy_bootstrap5",
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.context_processors.title'
             ],
         },
     },
@@ -129,5 +138,17 @@ STATIC_ROOT=BASE_DIR/'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL='login'
-LOGIN_REDIRECT_URL='autos:all'
+LOGIN_REDIRECT_URL='index'
 LOGOUT_REDIRECT_URL='login'
+
+
+
+#crispy form configuration
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+
+# Used for a default title
+APP_NAME = 'MyBlog'

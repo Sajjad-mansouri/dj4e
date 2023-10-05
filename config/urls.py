@@ -30,10 +30,28 @@ urlpatterns = [
     path('hello/', include('hello.urls')), 
     path('autos/', include('autos.urls')), 
     path('cats/', include('cats.urls')), 
-    path('accounts/', include('django.contrib.auth.urls')),                                                                                          
-    re_path(r'site/(?P<path>.*)$', serve,
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('ads/', include('ads.urls')),
+    re_path(r'^oauth/', include('social_django.urls', namespace='social')),                                                                                            
+
+    path('',TemplateView.as_view(template_name='home/main.html'),name='index')
+]
+
+
+
+
+urlpatterns+=[
+        re_path(r'site/(?P<path>.*)$', serve,
         {'document_root': SITE_ROOT, 'show_indexes': True},
         name='site_path'
     ),
-    path('',TemplateView.as_view(template_name='home/main.html'),name='index')
+]
+
+# Serve the favicon - Keep for later
+urlpatterns += [
+    path('favicon.ico', serve, {
+            'path': 'favicon.ico',
+            'document_root': os.path.join(BASE_DIR, 'home/static'),
+        }
+    ),
 ]
