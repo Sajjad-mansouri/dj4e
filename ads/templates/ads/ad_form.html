@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {%block content%}
 <h1>ad form</h1>
-<form method='POST' >
+<form method='POST' enctype="multipart/form-data">
 	{%csrf_token%}
 	{{form|crispy}}
 	<input type="submit" value='Submit' class='btn btn-primary'>

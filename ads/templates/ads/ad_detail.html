@@ -1,4 +1,6 @@
 {%extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% load humanize %} 
 {%block content%}
 
 
@@ -7,11 +9,34 @@
 <a href="{%url 'ads:all'%}" class='btn btn-primary'>back</a>
 <div>
 <h2>{{object.title}}</h2>
+<p><img src="{%url 'ads:ad_picture' object.id %}"></p>
+
 <p>price:{{object.price}}</p>
 <p>{{object.text|linebreaks|truncatewords:10}}</p>
 <hr>
+<form method='POST' action='{%url "ads:ad_comment_create" object.id%}'>
+	{%csrf_token%}
+	{{comment_form|crispy}}
+	<input type="submit" value="Submit">
 
-
+</form>
+<div class='comments'>
+	<h2>Comments:</h2>
+	{%for comment in comments%}
+	<p>{{comment.owner}} :
+		
+	</p>
+	<p>posted:{{comment.created|naturaltime}}</p>
+	<p>
+		{%if comment.owner == user%}
+		<a href="{%url 'ads:ad_comment_delete' comment.id %}"><i class="fa fa-trash"></i></a>
+		{%endif%}
+	{{comment.text}}
+</p>
+	<hr>
+	{%endfor%}
+	
+</div>
 </div>
 
 {%endblock content %}

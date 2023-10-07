@@ -1,0 +1,10 @@
+{%extends 'base.html'%}
+{%block content%}
+<h1>ad delete</h1>
+<form method='POST'>
+	{%csrf_token%}
+	<p>Are you sure want to delete this comment</p>
+	<input type="submit" value="Yes, delete." class='btn btn-danger'>
+	
+</form>
+{%endblock content %}
