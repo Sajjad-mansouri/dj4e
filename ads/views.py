@@ -28,10 +28,8 @@ class AdDetailView(OwnerDetailView):
 
 	def get_context_data(self,*args,**kwargs):
 		context=super().get_context_data(*args,**kwargs)
-
 		context['comment_form']=CommentForm()
 		context['comments']=Comment.objects.filter(ad=self.object).order_by('-updated')
-		context['favorites']=favorites
 		return context
 
 class AdCreateView(OwnerCreateView):
