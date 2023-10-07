@@ -8,18 +8,30 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.http import HttpResponse
 from django.urls import reverse
-from .models import Ad,Comment
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from .models import Ad,Comment,Fav
 from .forms import AdForm,CommentForm
 
 class AdListView(OwnerListView):
 	model=Ad
+	def get_context_data(self,*args,**kwargs):
+		context=super().get_context_data(*args,**kwargs)
+		favorites=list()
+		if self.request.user.is_authenticated:
+			rows=self.request.user.favorite_ads.values('id')
+			favorites=[row['id'] for row in rows]
+		context['favorites']=favorites
+		return context
 class AdDetailView(OwnerDetailView):
 	model=Ad
 
 	def get_context_data(self,*args,**kwargs):
 		context=super().get_context_data(*args,**kwargs)
+
 		context['comment_form']=CommentForm()
 		context['comments']=Comment.objects.filter(ad=self.object).order_by('-updated')
+		context['favorites']=favorites
 		return context
 
 class AdCreateView(OwnerCreateView):
@@ -63,4 +75,26 @@ class CommentDeleteView(OwnerDeleteView):
 		print(self.object)
 		return reverse('ads:ad_detail', args=[forum.id])
 
+@method_decorator(csrf_exempt, name='dispatch')
+class AddFavoriteView(View):
+	def post(self,request,*args,**kwargs):
+		pk=self.kwargs.get('pk')
+		ad=get_object_or_404(Ad,id=pk)
+		fav=Fav(ad=ad,user=request.user)
+		try:
+			fav.save()
+		except Exception as e:
+			print(e)
 
+		return HttpResponse()
+@method_decorator(csrf_exempt, name='dispatch')
+class DeleteFavoriteView(View):
+	def post(self,request,*args,**kwargs):
+		pk=self.kwargs.get('pk')
+		ad=get_object_or_404(Ad,id=pk)
+		try:
+			Fav.objects.get(ad=ad,user=request.user).delete()
+		except Exception as e:
+			print(e)
+
+		return HttpResponse()

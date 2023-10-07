@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-7r+c$p1w7k6ccijkedfq&aon0nlp!bszjpt@*45ov6g8!)dcyg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.sajjadmansouri.pythonanywhere.com','sajjadmansouri.pythonanywhere.com','localhost']
+ALLOWED_HOSTS = ['127.0.0.1','www.sajjadmansouri.pythonanywhere.com','sajjadmansouri.pythonanywhere.com','localhost']
 
 
 # Application definition
@@ -77,7 +77,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'home.context_processors.title'
+                'home.context_processors.title',
+                'social_django.context_processors.backends',  
+                'social_django.context_processors.login_redirect', 
             ],
         },
     },
@@ -153,3 +155,21 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Used for a default title
 APP_NAME = 'MyBlog'
+
+
+#backend authentications
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    # 'social_core.backends.twitter.TwitterOAuth',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
+try:
+    from . import github_settings 
+    SOCIAL_AUTH_GITHUB_KEY = github_settings.SOCIAL_AUTH_GITHUB_KEY
+    SOCIAL_AUTH_GITHUB_SECRET = github_settings.SOCIAL_AUTH_GITHUB_SECRET
+except:
+    print('When you want to use social login, please see dj4e-samples/github_settings-dist.py')

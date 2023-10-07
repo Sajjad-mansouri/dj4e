@@ -9,7 +9,34 @@
 <div>
 {%if object_list%}
 {%for object in object_list%}
-<h2><a href="{%url 'ads:ad_detail' object.id %}">{{object.title}}</a>{%if object.owner == user%}(<a href="{%url 'ads:ad_update' object.id %}">Edit</a>|<a href="{%url 'ads:ad_delete' object.id %}">Delete</a>){%endif%}</h2>
+<h2><a href="{%url 'ads:ad_detail' object.id %}">{{object.title}}</a>{%if object.owner == user%}(<a href="{%url 'ads:ad_update' object.id %}">Edit</a>|<a href="{%url 'ads:ad_delete' object.id %}">Delete</a>){%endif%}
+{%if user.is_authenticated%}
+<!-- fav and unfav -->
+
+       <a href="#" onclick=
+            "favPost('{% url 'ads:ad_unfavorite' object.id %}', {{ object.id }} );return false;"
+            {% if object.id not in favorites %} style="display: none;" {% endif %}
+            id="favorite_star_{{object.id}}">
+        <span class="fa-stack" style="vertical-align: middle;">
+        <i class="fa fa-star fa-stack-1x" style="color: orange;"></i>
+        <i class="fa fa-star-o fa-stack-1x"></i>
+        </span>
+        </a>
+
+                <!-- the second href -->
+        <a href="#" onclick=
+             "favPost('{% url 'ads:ad_favorite' object.id %}', {{ object.id }} );return false;"
+            {% if object.id in favorites %} style="display: none;" {% endif %}
+            id="unfavorite_star_{{object.id}}">
+        <span class="fa-stack" style="vertical-align: middle;">
+        <i class="fa fa-star fa-stack-1x" style="display: none; color: orange;"></i>
+        <i class="fa fa-star-o fa-stack-1x"></i>
+        </span>
+        </a>
+<!-- fav and unfav -->
+{%endif%}
+</h2>
+
 <p>price:{{object.price}}</p>
 <p>{{object.text|linebreaks|truncatewords:10}}</p>
 <hr>
@@ -20,4 +47,35 @@
 
 </div>
 
+
+<script >
+	function toggleInlineDisplay(star_id){
+		var elem = document.getElementById(star_id);
+		    if(window.getComputedStyle(elem).display == "inline") {
+        elem.style.display = 'none';
+        elem.dataset.previousDisplay = 'inline';
+    } else if(window.getComputedStyle(elem).display == "block") {
+        elem.style.display = 'none';
+        elem.dataset.previousDisplay = 'block';
+    } else {
+        console.log('prev', elem.dataset.previousDisplay);
+        if ( typeof elem.dataset.previousDisplay == 'string' ) {
+            elem.style.display = elem.dataset.previousDisplay
+        } else {
+            elem.style.display = 'inline';
+        }
+    }
+	}
+
+	function favPost(url,ad_id){
+		console.log('function favPost');
+		fetch(url,{method:'POST',body:'{}'}).then((resp)=>{
+			console.log(resp);
+	        toggleInlineDisplay("unfavorite_star_"+ad_id);
+	        toggleInlineDisplay("favorite_star_"+ad_id);
+		}).catch((error)=>{
+			console.log(error);
+		})
+	}
+</script>
 {%endblock content %}
