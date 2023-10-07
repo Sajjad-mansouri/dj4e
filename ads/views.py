@@ -10,19 +10,31 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.db.models import Q
 from .models import Ad,Comment,Fav
 from .forms import AdForm,CommentForm
 
-class AdListView(OwnerListView):
-	model=Ad
-	def get_context_data(self,*args,**kwargs):
-		context=super().get_context_data(*args,**kwargs)
+class AdListView(View):
+	template_name='ads/ad_list.html'
+	def get(self,request,*args,**kwargs):
+
 		favorites=list()
 		if self.request.user.is_authenticated:
 			rows=self.request.user.favorite_ads.values('id')
 			favorites=[row['id'] for row in rows]
-		context['favorites']=favorites
-		return context
+		
+
+		search=self.request.GET.get('search',False)
+		if search:
+			query=Q(title__icontains=search)
+			query.add(Q(text__icontains=search),Q.OR)
+			object_list=Ad.objects.filter(query).select_related().order_by('-updated_at')[:10]
+		else:
+			object_list=Ad.objects.all().order_by('-updated_at')[:10]
+
+		context={'object_list':object_list,'favorites':favorites,'search':search}
+		return render(request,self.template_name,context=context)
+
 class AdDetailView(OwnerDetailView):
 	model=Ad
 

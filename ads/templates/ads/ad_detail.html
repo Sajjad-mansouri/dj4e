@@ -9,6 +9,18 @@
 <a href="{%url 'ads:all'%}" class='btn btn-primary'>back</a>
 <div>
 <h2>{{object.title}}</h2>
+<!-- tag -->
+</p>
+{% if object.tags.all %}
+<p>Tags: 
+  {% for tag in object.tags.all %}
+  <span style="border:1px grey solid; background-color: LightGreen;">{{ tag }}</span>
+  {% endfor %}
+</p>
+{% endif %}
+
+<!-- tag -->
+
 <p><img src="{%url 'ads:ad_picture' object.id %}"></p>
 
 <p>price: ${{object.price|floatformat:2}}</p>

@@ -1,4 +1,5 @@
 {%extends 'base.html'%}
+{% load humanize %} 
 {%block content%}
 {%if user.is_authenticated%}
 
@@ -7,6 +8,16 @@
 <h1>ad list:</h1>
 <a href="{% url 'ads:ad_create' %}" class="btn btn-primary">Create Ad</a> 
 <div>
+    <form>
+<!-- search input -->
+      <input type="text" placeholder="Search.." name="search"
+      {% if search %} value="{{ search }}" {% endif %}
+      >
+      <button type="submit"><i class="fa fa-search"></i></button>
+    <a href="{% url 'ads:all' %}"><i class="fa fa-undo"></i></a>
+    </form>
+        <!-- search input -->
+
 {%if object_list%}
 {%for object in object_list%}
 <h2><a href="{%url 'ads:ad_detail' object.id %}">{{object.title}}</a>{%if object.owner == user%}(<a href="{%url 'ads:ad_update' object.id %}">Edit</a>|<a href="{%url 'ads:ad_delete' object.id %}">Delete</a>){%endif%}
@@ -36,7 +47,12 @@
 <!-- fav and unfav -->
 {%endif%}
 </h2>
-
+<small>
+{% if object.owner.username %}
+    posted by {{ post.owner.username }}
+{% endif %}
+{{ object.updated_at|naturaltime }}
+</small>
 <p>price: ${{object.price|floatformat:2}}</p>
 <p>{{object.text|linebreaks|truncatewords:10}}</p>
 <hr>
