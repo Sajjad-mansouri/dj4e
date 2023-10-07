@@ -11,7 +11,7 @@
 <h2>{{object.title}}</h2>
 <p><img src="{%url 'ads:ad_picture' object.id %}"></p>
 
-<p>price:{{object.price}}</p>
+<p>price: ${{object.price|floatformat:2}}</p>
 <p>{{object.text|linebreaks|truncatewords:10}}</p>
 <hr>
 <form method='POST' action='{%url "ads:ad_comment_create" object.id%}'>

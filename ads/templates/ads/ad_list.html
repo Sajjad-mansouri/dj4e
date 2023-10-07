@@ -37,7 +37,7 @@
 {%endif%}
 </h2>
 
-<p>price:{{object.price}}</p>
+<p>price: ${{object.price|floatformat:2}}</p>
 <p>{{object.text|linebreaks|truncatewords:10}}</p>
 <hr>
 {%endfor%}
