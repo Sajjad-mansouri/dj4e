@@ -33,7 +33,5 @@ class AdForm(forms.ModelForm):
 		return instance
 
 
-class CommentForm(forms.ModelForm):
-	class Meta:
-		model=Comment
-		fields=['text']
+class CommentForm(forms.Form):
+	comment = forms.CharField(required=True, max_length=500, min_length=3, strip=True)

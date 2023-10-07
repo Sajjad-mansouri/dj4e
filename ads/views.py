@@ -46,18 +46,12 @@ def stream_file(request,pk):
 
 class CommentCreateView(LoginRequiredMixin,View):
 	def post(self,request,*args,**kwargs):
-		pk=self.kwargs.get('pk')
-		ad=get_object_or_404(Ad,id=pk)
-		owner=request.user
-		form=CommentForm(request.POST)
-		if form.is_valid():
-			obj=form.save(commit=False)
-			obj.ad=ad
-			obj.owner=owner
-			obj.save()
+			pk=self.kwargs.get('pk')
+			ad=get_object_or_404(Ad,id=pk)
+			owner=request.user
+			comment=Comment.objects.create(text=request.POST['comment'],ad=ad,owner=owner)
 			return redirect(reverse('ads:ad_detail',args=[pk]))
 
-		return redirect(reverse('ads:ad_detail',args=[pk]))
 
 
 class CommentDeleteView(OwnerDeleteView):
